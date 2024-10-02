@@ -115,7 +115,7 @@ switch (tarea1.estado) {
     case "P":
         console.log("Tarea en pendiente");
         break;
-        
+
     case "E":
         console.log("Tarea en proceso");
         break;
@@ -128,3 +128,119 @@ switch (tarea1.estado) {
         console.log("Tiene otro estado o no tiene");
         break;
 }
+
+try {
+    let numero1:number = 1;
+    console.log(numero1.toString());
+} catch (error) {
+    console.log("Se ha producido un error", error)
+}
+
+/**
+ * Estructura de repetición - Bucles : 
+ */
+
+let tarea2 : Tarea = {estado: EstadoTarea2.Terminado, nombre: "Tarea 2", prioridad: 0}
+let listadoTareas: Tarea[] = [tarea1,tarea2]
+
+//FOREACH
+listadoTareas.forEach( 
+    (elemento,indice,listadoTareas) => {
+    console.log(`${elemento.nombre} - ${indice} - ${listadoTareas}`)
+});
+
+/** 
+ * FOR
+ * Cuando trabajamos con tipos de datos no funciona
+ * for (const tarea: Tarea in listadoTareas){}
+ */
+
+// FOR CLÁSICO
+
+for (let index = 0; index < listadoTareas.length ; index++){
+    let elemento = listadoTareas[index];
+};
+
+//while() {
+
+//};
+
+//do {
+
+//} while ();
+
+//Funciones con parámeros por defecto
+
+function saludarDefault (nombre:string = "Jose"){
+    console.log(`Hola ${nombre}, qué tal estas?`);
+}
+saludarDefault();
+saludarDefault("Juan");
+
+
+//Funciones con parámeros opcionales
+
+function saludarOpcional (nombre?:string){
+    let nombreParam = nombre;
+    if(nombreParam == undefined){
+        nombreParam = "Nombre Defecto";
+    }
+    console.log(`Hola ${nombreParam}, qué tal estas?`);
+
+}
+
+saludarOpcional();
+
+// Funciones con parámetros de varios tipos
+function variosTipos (a: string | number){
+    if (typeof(a) == "string"){
+        console.log("a es un string");
+    } else{
+        console.log("a es un number");
+    }
+}
+variosTipos(1);
+
+// Función con retorno: return
+function suma (a:number,b:number): number{
+    return a+b;
+}
+
+// Podemos almacenar directamente el valor devuelto de la función en una variable
+var resultadoSuma:number = suma(1,2);
+
+console.log(resultadoSuma);
+console.log(suma(1,2));
+
+
+// Funciones anónimas: no se especifica un nombre.
+/**
+ * Suma dos valores
+ * @param valor1 primer valor
+ * @param valor2 segundo valor
+ * @returns devuelve la suma de valor1 y valor2
+ */
+const funcRestar = function (valor1:number, valor2:number): number {
+    return valor1 - valor2;
+}
+
+/**
+ * Funciones, rest parameters (parámetros rest)
+ * Permite definir funciones que tomen un número indeterminado de argumentos
+ */
+function multiParam (...nombres: string[]):void{
+    nombres.forEach((nombre)  => {
+        console.log(nombre);
+    })
+}
+// Llamada a función multiparámetros
+multiParam("Alex","Martin");
+
+// A las funciones rest también se le puede pasar una lista de elementos
+let listaNombres:string[] = ["Leandro","Francisco"];
+multiParam(...listaNombres);
+
+let farrow = (tarea:Tarea,indice:number) => {console.log(`${indice} - ${tarea.nombre}`)}
+listadoTareas.forEach(farrow);
+listadoTareas.forEach((tarea:Tarea) => {console.log (`${tarea.nombre}`)});
+listadoTareas.forEach(function (tarea:Tarea){console.log(`${tarea.nombre}`)})
