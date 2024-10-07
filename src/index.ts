@@ -244,3 +244,51 @@ let farrow = (tarea:Tarea,indice:number) => {console.log(`${indice} - ${tarea.no
 listadoTareas.forEach(farrow);
 listadoTareas.forEach((tarea:Tarea) => {console.log (`${tarea.nombre}`)});
 listadoTareas.forEach(function (tarea:Tarea){console.log(`${tarea.nombre}`)})
+
+// CALLBACK
+
+let fsuma = function suma(a:number, b:number){
+    return a+b;
+}
+
+let fresta = function resta(a:number,b:number){
+    return a-b;
+}
+// En este ejemplo estamos definiendo que la función opera espera recibir como parámetro una función CallBack
+// Concretamente, estamos diciendo que la función como entrada tiene que tener dos parámetros y devolver un número
+// Cuando se llama a dicha función CallBack desde la función principal se le pasan dichos parámetros y se vuelve a operar con el resultado
+
+function opera(x:number,y:number,funcion:(a:number,b:number)=> number){
+    return funcion(x,y);
+}
+
+opera(2,3,fsuma);
+opera(2,3,fresta);
+
+// ASINCRONAS
+
+async function asincrona(){
+    let suma:number = 0;
+    for(let i = 0 ; i < 10000000000000 ; i++) {
+        suma+=1;
+    }
+    return suma;
+}
+
+asincrona().then((data:number) => {console.log(`El resultado de ejecutar asyc = ${data}`)});
+console.log("Línea posterior a la llamada de la asincrona");
+
+async function getUniversitiesAsync(pais:string) : Promise <JSON[]> {
+    let index:number = 0;
+    const apiURL:string = "http://universities.hipolabs.com/search?country=";
+
+    //Construimos la URL de la API a consultar concatenando el pais que se quiere filtrar
+    let url:string = `${apiURL}${pais}`;
+    
+    // Con la función fetch accedemos hacemos una petición GET y obtenemos los resultados. 
+    // Usamos await para indicar que hasta que no termine esta instrucción no se ejecuta la siguiente
+    let respuesta:Response = await fetch(url);
+    // Convertimos la respuesta de la petición GET en un archivo JSON
+    let datos:Promise<JSON[]> = await respuesta.json() as Promise<JSON[]>;
+    return datos
+}
