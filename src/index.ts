@@ -333,13 +333,13 @@ ejercicio6("session","tarea1");
 ejercicio6("local","tarea2");
 
 // EJERCICIO 7
-Cookies.set('Nombre', 'Pedro', {expires:7,path:"/",sameSite:'Strict',secure:false})
-Cookies.set('Apellido', 'Blanco', {expires:2,path:"/",sameSite:'Strict',secure:false})
-Cookies.set('Email', 'pblavar1810@iescarrillo.es', {expires:4,path:"/",sameSite:'Strict',secure:false})
+Cookies.set('Nombre', 'Pedro', {expires:7,path:"/",sameSite:'Strict',secure:false});
+Cookies.set('Apellido', 'Blanco', {expires:2,path:"/",sameSite:'Strict',secure:false});
+Cookies.set('Email', 'pblavar1810@iescarrillo.es', {expires:4,path:"/",sameSite:'Strict',secure:false});
 
-Cookies.get('Nombre')
-Cookies.get('Apellido')
-Cookies.get('Email')
+Cookies.get('Nombre');
+Cookies.get('Apellido');
+Cookies.get('Email');
 
 Cookies.remove("Nombre");
 Cookies.remove("Apellido");
