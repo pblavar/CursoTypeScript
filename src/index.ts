@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 // Tipos de datos
 /**
  * string
@@ -56,11 +58,11 @@ let propiedad2 = configuracion.nombre;
 // Mostrar variables con los datos
 console.log(`${propiedad1}, ${propiedad2}`);
 
-enum EstadoTarea {"Pendiete", "En proceso", "Terminado"};
+enum EstadoTarea {"Pendiente", "En proceso", "Terminado"};
 
 let estadoPendiente = EstadoTarea["En proceso"]; //Devolverá su clave (en este caso un 1, al estar en la segnda posicion del enum)
 
-enum EstadoTarea2 {"Pendiete" = "P", "En proceso" = "E", "Terminado" = "T"};
+enum EstadoTarea2 {"Pendiente" = "P", "En proceso" = "E", "Terminado" = "T"};
 
 let estadoPendiente2 = EstadoTarea["En proceso"]; //Devolverá su clave (en este caso un E)
 
@@ -75,7 +77,7 @@ interface Tarea {
 };
 
 // Crear un bloque de datos con la interfaz creada. (Tiene que contener las variables y sus tipos declaradas en el bloque)
-let tarea1:Tarea = {nombre:"Tarea1", prioridad:2, estado:EstadoTarea2.Terminado};
+let tarea4:Tarea = {nombre:"Tarea1", prioridad:2, estado:EstadoTarea2.Terminado};
 
 // Declarar type (Es muy similar a las interfaces)
 type Empleado = {
@@ -100,18 +102,18 @@ console.log(empleado2.cod);
 // Operador Ternario
 // condicion ? verdadero : falso
 
-console.log(tarea1.estado == "E" ? `La tarea esta en proceso` : `No esta en proceso`);
+console.log(tarea4.estado == "E" ? `La tarea esta en proceso` : `No esta en proceso`);
 
 // IF-ELSE
 
-if (tarea1.estado == "P") {
+// if (tarea4.estado == "P") {
 
-} else {
+// } else {
 
-}
+// }
 
 // SWITCH
-switch (tarea1.estado) {
+switch (tarea4.estado) {
     case "P":
         console.log("Tarea en pendiente");
         break;
@@ -140,8 +142,8 @@ try {
  * Estructura de repetición - Bucles : 
  */
 
-let tarea2 : Tarea = {estado: EstadoTarea2.Terminado, nombre: "Tarea 2", prioridad: 0}
-let listadoTareas: Tarea[] = [tarea1,tarea2]
+let tarea3 : Tarea = {estado: EstadoTarea2.Terminado, nombre: "Tarea 2", prioridad: 0}
+let listadoTareas: Tarea[] = [tarea4,tarea3]
 
 //FOREACH
 listadoTareas.forEach( 
@@ -265,30 +267,80 @@ function opera(x:number,y:number,funcion:(a:number,b:number)=> number){
 opera(2,3,fsuma);
 opera(2,3,fresta);
 
-// ASINCRONAS
+console.log("=================================================================");
 
-async function asincrona(){
-    let suma:number = 0;
-    for(let i = 0 ; i < 10000000000000 ; i++) {
-        suma+=1;
-    }
-    return suma;
-}
+// EJERCICIO 2
+function ejercicio2(type: String = "SessionStorage", key: string, data: Tarea[]) {
+    try {
+        if (type.toLowerCase() == "session" || type == "SessionStorage") {
+            sessionStorage.setItem(key, JSON.stringify(data))
+        } else if (type.toLowerCase() == "local") {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+    } catch (error) {
+        console.log("ERROR: No esta definido el SessionStorage");
+    };
+};
 
-asincrona().then((data:number) => {console.log(`El resultado de ejecutar asyc = ${data}`)});
-console.log("Línea posterior a la llamada de la asincrona");
+// EJERCICIO 3
+let tarea1: Tarea = { nombre: "TAREA1", prioridad: 1, estado: EstadoTarea2.Terminado };
+let tarea2: Tarea = { nombre: "TAREA2", prioridad: 2, estado: EstadoTarea2.Pendiente };
 
-async function getUniversitiesAsync(pais:string) : Promise <JSON[]> {
-    let index:number = 0;
-    const apiURL:string = "http://universities.hipolabs.com/search?country=";
+let arrayTareas: Tarea[] = [tarea1, tarea2];
 
-    //Construimos la URL de la API a consultar concatenando el pais que se quiere filtrar
-    let url:string = `${apiURL}${pais}`;
+ejercicio2("session", "tarea1", arrayTareas);
+ejercicio2("local", "tarea2", arrayTareas);
+
+// EJERCICIO 4
+function ejercicio4(type: String = "session", key: string) {
+    let datos;
+
+    try {
+        if (type == "session") {
+            datos = sessionStorage.getItem(key);
+            console.log("@ == Datos recuperados de sessionStorage == @");
+            console.log(datos)
+        } else if (type == "local") {
+            datos = localStorage.getItem(key);
+            console.log("@ == Datos recuperados de localStorage == @");
+            console.log(datos)
+        }
+    } catch (error) {
+        console.log("ERROR: No esta definido el SessionStorage");
+    };
+};
     
-    // Con la función fetch accedemos hacemos una petición GET y obtenemos los resultados. 
-    // Usamos await para indicar que hasta que no termine esta instrucción no se ejecuta la siguiente
-    let respuesta:Response = await fetch(url);
-    // Convertimos la respuesta de la petición GET en un archivo JSON
-    let datos:Promise<JSON[]> = await respuesta.json() as Promise<JSON[]>;
-    return datos
-}
+// EJERCICIO 5
+ejercicio4("session", "tarea1");
+ejercicio4("local", "tarea2");
+
+// EJERCICIO 6
+function ejercicio6(type:string = "session", key:string) {
+    try {
+        if (type.match("session")) {
+            sessionStorage.removeItem(key);
+            console.log("Datos eliminados de sessionStorage");
+        } else if (type.match("local")) {
+            localStorage.removeItem(key);
+            console.log("Datos eliminados de localStorage");
+        };
+    } catch (error) {
+        console.log("ERROR: No esta definido el SessionStorage");
+    };
+};
+
+ejercicio6("session","tarea1");
+ejercicio6("local","tarea2");
+
+// EJERCICIO 7
+Cookies.set('Nombre', 'Pedro', {expires:7,path:"/",sameSite:'Strict',secure:false})
+Cookies.set('Apellido', 'Blanco', {expires:2,path:"/",sameSite:'Strict',secure:false})
+Cookies.set('Email', 'pblavar1810@iescarrillo.es', {expires:4,path:"/",sameSite:'Strict',secure:false})
+
+Cookies.get('Nombre')
+Cookies.get('Apellido')
+Cookies.get('Email')
+
+Cookies.remove("Nombre");
+Cookies.remove("Apellido");
+Cookies.remove("Email");
